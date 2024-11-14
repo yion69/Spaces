@@ -5,5 +5,7 @@ declare namespace NodeJS {
 
     GITHUB_CLIENT_ID: string;
     GITHUB_CLIENT_SECRET: string;
+
+    GEMINI_API_KEY: string;
   }
 }
