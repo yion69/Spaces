@@ -39,7 +39,8 @@ export const authOptions = {
         clientId: process.env.GITHUB_CLIENT_ID as string,     
         clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     })
-  ]
+  ],
+  secret: process.env.NEXTAUTH_SECRET
 }
 export async function loginIsRequiredServer() {
     const session = await getServerSession(authOptions);
@@ -49,13 +50,5 @@ export async function loginIsRequiredServer() {
 export async function logOut () {
     await signOut({callbackUrl: "/login"});
 }
-// export async function loginIsRequiredClient() {
-//     if(typeof window !== "undefined") { 
-//         const session = useSession();
-//         const router = useRouter();
-        
-//         if(!session) { router.push("/") };
-//     }
-// }
 
 export default NextAuth(authOptions)
