@@ -2,12 +2,10 @@
 
 import {
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
+
 import UserLogged from "./nav-user-logged"
-import LoggedOut from "./nav-user-logoff"
 
 export function NavUser({
   user,

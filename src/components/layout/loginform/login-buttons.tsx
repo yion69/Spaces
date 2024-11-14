@@ -15,7 +15,7 @@ export async function handleClick (type:BuiltInProviderType) {
             console.log("Sign-in successful:", signInResponse);  
         }
     } catch (error) {
-        console.error("Error: Google Login");
+        console.error("Error: Google Login", error);
     }
 }
 

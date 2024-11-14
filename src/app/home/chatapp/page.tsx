@@ -11,8 +11,8 @@ export default function Chatapp () {
                 </div>
                 <div className="h-full flex flex-col items-center justify-end p-4">
                     <div className="flex flex-col w-1/2 max-h-[75dvh] gap-4 pt-10 overflow-y-auto box-border no-scrollbar">
-                        { [...Array(10)].map((e,i) => (
-                            <Message content="Lorem ipsum dolor sit.Lorem ipsum dolor sit.Lorem ipsum dolor sit.Lorem ipsum dolor sit." />
+                        { [...Array(10)].map((_,i) => (
+                            <Message key={i} content="Lorem ipsum dolor sit.Lorem ipsum dolor sit.Lorem ipsum dolor sit.Lorem ipsum dolor sit." />
                         ))
                         }
                     </div>

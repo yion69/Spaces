@@ -7,12 +7,9 @@ import {
   Bot,
   BotMessageSquare,
   Command,
-  Frame,
   GalleryVerticalEnd,
   HomeIcon,
   Map,
-  Moon,
-  PieChart,
   Settings2,
   Slack,
   SquareTerminal,
@@ -28,17 +25,14 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
   SidebarRail,
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/ui/toggle"
 
-// This is sample data.
+// This is sample 
 const data = {
   user: {
     name: "shadcn",

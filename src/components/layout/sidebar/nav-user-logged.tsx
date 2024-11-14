@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { ChevronsUpDown, Sparkles, BadgeCheck, CreditCard, Bell, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export default function UserLogged ({
   user,
