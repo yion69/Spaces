@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react"
 
-export default function Textarea () {
+interface TextareaI { message: string, setMessage: (newMessage:string) => void }
+export default function Textarea ({ message, setMessage }:TextareaI) {
 
-    const [value, setValue] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null); 
 
     useEffect(() => {
@@ -12,10 +12,10 @@ export default function Textarea () {
             textareaRef.current.style.height = "auto"; 
             textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
         };
-    },[value])
+    },[message])
 
     const handleChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
-        setValue(e.target.value);
+        setMessage(e.target.value);
     }
     
     return(

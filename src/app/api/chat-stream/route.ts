@@ -14,7 +14,11 @@ export const POST = async (req:NextRequest) => {
     
         const result = await model.generateContent(prompt);
     
-        return NextResponse.json({ session: session_id, message: message});
+        return NextResponse.json({ 
+            session: session_id, 
+            message: result.response.text(), 
+            metadata: result.response.usageMetadata
+        });
 
     } catch (error) {
         console.error("ERROR:",error);
