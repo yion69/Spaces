@@ -40,7 +40,7 @@ export default function Create () {
         }
 
         try {
-            const request = await fetch("", {
+            const request = await fetch("/api/notes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

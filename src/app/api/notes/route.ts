@@ -9,11 +9,12 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
         
         const body = await req.json();
         const { note_author, note_name, note_content } = body;
+        console.log(note_name);
+        if(!note_name || !note_content || !note_author) {
 
-        if(!note_name || !note_content || note_author) {
             return NextResponse.json({
                 action_completed: false,
-                error: "Missing required fields",
+                error: `Missing required fields`,
             }, { status: 400 })
         }
 
@@ -22,6 +23,8 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
             note_name: note_name, 
             note_content:note_content
         });
+
+        const noteSave = await note.save();
 
         return NextResponse.json({
             action_complete: true,
@@ -33,5 +36,18 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
             action_complete: false,
             error: error
         },{ status: 504 })
+    }
+}
+
+export const GET = async (res:NextResponse) => {
+    try {
+        await connectDb();
+        
+    } catch (error) {
+        return NextResponse.json({
+            action: "fetch all note",
+            action_completed: false,
+            error: error
+        },{ status: 505 })
     }
 }
