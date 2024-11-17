@@ -19,6 +19,6 @@ export default function Textarea ({ message, setMessage }:TextareaI) {
     }
     
     return(
-        <textarea className="h-auto flex w-full border border-zinc-700 px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-xl text-base bg-muted" placeholder="Send a message..." rows={2} autoFocus={undefined} ref={textareaRef} onChange={handleChange} name="prompt"></textarea>
+        <textarea className="h-4 flex w-full border border-zinc-700 px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-xl text-base bg-muted" placeholder="Send a message..." rows={2} autoFocus={undefined} ref={textareaRef} onChange={handleChange} name="prompt"></textarea>
     )
 }

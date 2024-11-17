@@ -20,6 +20,7 @@ export const POST = async (req:NextRequest) => {
             metadata: result.response.usageMetadata
         });
 
+
     } catch (error) {
         console.error("ERROR:",error);
 

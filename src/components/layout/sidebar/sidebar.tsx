@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   AudioWaveform,
+  BookCopy,
   BookOpen,
   Bot,
   BotMessageSquare,
@@ -10,6 +11,8 @@ import {
   GalleryVerticalEnd,
   HomeIcon,
   Map,
+  MessageCircleMore,
+  NotebookTabs,
   Settings2,
   Slack,
   SquareTerminal,
@@ -97,29 +100,6 @@ const data = {
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
       title: "Settings",
       url: "#",
       icon: Settings2,
@@ -151,13 +131,23 @@ const data = {
     },
     {
       name: "Gemini AI",
-      url: "/home/chatapp",
+      url: "/home/gemini",
       icon: BotMessageSquare,
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Notes",
+      url: "/home/notes",
+      icon: NotebookTabs,
+    },
+    {
+      name: "Resources",
+      url: "/home/resource",
+      icon: BookCopy,
+    },
+    {
+      name: "Group Chat",
+      url: "/home/chat",
+      icon: MessageCircleMore,
     },
   ],
 }
@@ -169,7 +159,6 @@ export function AppSidebar({ user, ...props }:SidebarProps) {
 
   return (
     <>
-      <SidebarTrigger className="absolute right-1/2" />
       <Sidebar collapsible="icon" {...props}>
         <SidebarHeader>
           {state == "collapsed" &&

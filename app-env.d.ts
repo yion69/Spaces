@@ -7,5 +7,7 @@ declare namespace NodeJS {
     GITHUB_CLIENT_SECRET: string;
 
     GEMINI_API_KEY: string;
+
+    MONGODB_URI:string;
   }
 }
