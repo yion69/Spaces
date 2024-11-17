@@ -9,17 +9,22 @@ import NoteItem from "@/components/layout/notes/notes-item";
 import { DialogHeader } from "@/components/ui/dialog";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 export default function Notes () {
 
     const { id } = useParams();
+    const [notes, setNotes] = useState<Object[]>([]);
     const [noteAuthor, setNoteAuthor] = useState("JohnDoe");
     const [createNoteName, setCreateNoteName] = useState("");
     const [loading, setLoading] = useState(false);
     const noteRef = useRef<HTMLInputElement>(null);
 
+    useEffect(() => {
+        handleFetch();
+    },[])
+    
     const handleNoteInput = () => {
         if(noteRef.current) {
             setCreateNoteName(prev => noteRef.current!.value)
@@ -46,6 +51,15 @@ export default function Notes () {
             setLoading(prev => false);
         }
     }
+    
+    const handleFetch = async () => {
+        const req = await fetch("/api/notes", {
+            method: "GET",
+        })
+        const res = await req.json();
+        console.log(res);
+        setNotes(prev => [...prev, res]);       
+    }
 
     const note_data:NoteItemI = {
         note_id: "23942813",
@@ -57,7 +71,7 @@ export default function Notes () {
     return (
         <div className="flex flex-col h-screen w-full">
             <div className="flex flex-wrap justify-center items-center w-full h-fit py-4 px-10 gap-2 border-b bg-zinc-50 dark:bg-zinc-900">
-                <form action="post" className="flex items-center w-10/12 h-full gap-2">
+                <form action="get" className="flex items-center w-10/12 h-full gap-2">
                     <Input className="w-10/12" />
                     <Button className="w-2/12" variant={"default"}>
                         <Search /> Search
@@ -96,7 +110,7 @@ export default function Notes () {
             </div>
             <div className="flex-1 grid grid-flow-row grid-cols-2 h-fit max-h-[90vh] w-full px-10 py-6 gap-4 overflow-y-scroll">
                 { 
-                    [...Array(3)].map((_,i) => (
+                    notes.map((_,i) => (
                         <NoteItem key={i} note_data={note_data} />
                     ))
                 }

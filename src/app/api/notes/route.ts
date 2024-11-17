@@ -42,7 +42,15 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
 export const GET = async (res:NextResponse) => {
     try {
         await connectDb();
-        
+        const note = NoteModel;
+        const result = await note.find();
+
+        return NextResponse.json({
+            action: "fetch all note",
+            action_completed: true,
+            body: result
+        })
+
     } catch (error) {
         return NextResponse.json({
             action: "fetch all note",
