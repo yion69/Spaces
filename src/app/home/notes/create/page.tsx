@@ -2,13 +2,15 @@
 
 import Tiptap from "@/components/layout/notes/tiptap";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { JSONContent } from "@tiptap/react";
 import { FilePlus2, Pencil } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { setTimeout } from "timers";
 
 export default function Create () {
     
@@ -19,6 +21,7 @@ export default function Create () {
     const [newName, setNewName] = useState("");
     const [document, setDocument] = useState<JSONContent>();
     const { toast } = useToast(); 
+    const router = useRouter();
 
     useEffect(() => {
         setNoteName(paramsName!);
@@ -52,7 +55,18 @@ export default function Create () {
                 }),
             })
             const response = await request.json();
-            console.log(response);
+ 
+            if(response.action_complete === true) {
+                toast({ 
+                    variant: "default",
+                    title: "Note Created Successfully",
+                    description: "Your note has been successfully created. Redirecting you to the notes page shortly."
+                })
+                setTimeout(() => {
+                    router.push("/home/notes");
+                }, 5000);
+            }
+
         } catch (error) {
             console.log(error);
         }

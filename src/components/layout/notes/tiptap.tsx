@@ -27,7 +27,8 @@ import { ColorYellow } from "@/components/toolbars/color-yellow";
 import { ColorPink } from "@/components/toolbars/color-pink";
 import { ColorPurple } from "@/components/toolbars/color-purple";
 import { ColorBlue } from "@/components/toolbars/color-blue";
-const extensions = [
+
+export const extensionsCustom = [
 	StarterKit.configure({
 		orderedList: {
 			HTMLAttributes: {
@@ -73,7 +74,7 @@ interface TipTapI { setDocument: React.Dispatch<React.SetStateAction<JSONContent
 
 const Tiptap = ({ setDocument }:TipTapI) => {
 	const editor = useEditor({
-		extensions: extensions as Extension[],
+		extensions: extensionsCustom as Extension[],
 		content,
 		immediatelyRender: false,
 		editorProps: {

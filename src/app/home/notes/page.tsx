@@ -1,9 +1,7 @@
 "use client"
 
-import { NoteItemI } from "@/components/layout/notes/notes-item";
 import { Button } from "@/components/ui/button";
 import { Search, PlusCircle, FilePlus, Ban } from "lucide-react";
-import { useParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import NoteItem from "@/components/layout/notes/notes-item";
 import { DialogHeader } from "@/components/ui/dialog";
@@ -11,20 +9,29 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } 
 import { Label } from "@radix-ui/react-dropdown-menu";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { JSONContent } from "@tiptap/react";
+
+export interface NoteI {
+  _id: string;
+  note_author: string;
+  note_name: string;
+  note_content: JSONContent;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 export default function Notes () {
 
-    const { id } = useParams();
-    const [notes, setNotes] = useState<Object[]>([]);
+    const [notes, setNotes] = useState<NoteI[]>([]);
     const [noteAuthor, setNoteAuthor] = useState("JohnDoe");
     const [createNoteName, setCreateNoteName] = useState("");
     const [loading, setLoading] = useState(false);
     const noteRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        handleFetch();
-    },[])
-    
+    useEffect(() => { handleFetch() },[]);
+    // useEffect(() => { console.log(notes) },[notes]);
+
     const handleNoteInput = () => {
         if(noteRef.current) {
             setCreateNoteName(prev => noteRef.current!.value)
@@ -57,15 +64,8 @@ export default function Notes () {
             method: "GET",
         })
         const res = await req.json();
-        console.log(res);
-        setNotes(prev => [...prev, res]);       
-    }
-
-    const note_data:NoteItemI = {
-        note_id: "23942813",
-        note_name: "The Water Cycle",
-        note_description: "The continuous process by which water moves through the atmosphere, land, and oceans, involving evaporation, condensation, and precipitation.",
-        note_created: "2024-11-15 2:30:45",
+        setNotes(prev => res.body);       
+        console.log(res.body);
     }
 
     return (
@@ -110,8 +110,16 @@ export default function Notes () {
             </div>
             <div className="flex-1 grid grid-flow-row grid-cols-2 h-fit max-h-[90vh] w-full px-10 py-6 gap-4 overflow-y-scroll">
                 { 
-                    notes.map((_,i) => (
-                        <NoteItem key={i} note_data={note_data} />
+                    notes.map((e,i) => (
+                        <NoteItem 
+                            key={i}
+                            _id={e._id} 
+                            note_author={e.note_author} 
+                            note_name={e.note_name} 
+                            note_content={e.note_content} 
+                            createdAt={e.createdAt} 
+                            updatedAt={e.updatedAt} 
+                            __v={e.__v} />
                     ))
                 }
             </div>

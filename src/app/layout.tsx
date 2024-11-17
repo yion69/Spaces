@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/hooks/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,20 +22,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient = new QueryClient();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

@@ -2,7 +2,7 @@ import NoteModel from "@/app/models/note-model";
 import { NextRequest, NextResponse } from "next/server";
 import connectDb from "./dbconnect";
 
-export const POST = async (req:NextRequest, res:NextResponse) => {
+export const POST = async (req:NextRequest) => {
     try {
 
         await connectDb();
@@ -39,7 +39,7 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
     }
 }
 
-export const GET = async (res:NextResponse) => {
+export const GET = async () => {
     try {
         await connectDb();
         const note = NoteModel;
