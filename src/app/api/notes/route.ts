@@ -1,6 +1,7 @@
 import NoteModel from "@/app/models/note-model";
 import { NextRequest, NextResponse } from "next/server";
 import connectDb from "./dbconnect";
+import { json } from "stream/consumers";
 
 export const POST = async (req:NextRequest) => {
     try {
@@ -9,7 +10,7 @@ export const POST = async (req:NextRequest) => {
         
         const body = await req.json();
         const { note_author, note_name, note_content } = body;
-        console.log(note_name);
+        
         if(!note_name || !note_content || !note_author) {
 
             return NextResponse.json({

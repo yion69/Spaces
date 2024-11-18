@@ -88,7 +88,7 @@ export default function Note ({ params }: { params: Promise<{ id: string }> }) {
                     <div className="flex w-full items-center py-2 px-2 justify-between border-b sticky top-0 left-0 bg-zinc-50 dark:bg-background z-20">
                         <ToolbarProvider editor={editor}>
                             <TooltipProvider>
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-wrap items-center gap-2">
                                     <RedoToolbar />
                                     <Separator orientation="vertical" className="h-7" />
                                     <BoldToolbar />

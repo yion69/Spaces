@@ -30,7 +30,6 @@ export default function Notes () {
     const noteRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => { handleFetch() },[]);
-    // useEffect(() => { console.log(notes) },[notes]);
 
     const handleNoteInput = () => {
         if(noteRef.current) {
@@ -70,15 +69,15 @@ export default function Notes () {
 
     return (
         <div className="flex flex-col h-screen w-full">
-            <div className="flex flex-wrap justify-center items-center w-full h-fit py-4 px-10 gap-2 border-b bg-zinc-50 dark:bg-zinc-900">
-                <form action="get" className="flex items-center w-10/12 h-full gap-2">
-                    <Input className="w-10/12" />
-                    <Button className="w-2/12" variant={"default"}>
+            <div className="flex flex-wrap justify-center items-center w-full h-fit px-4 py-4 lg:py-4 lg:px-10 gap-2 border-b bg-zinc-50 dark:bg-zinc-900">
+                <form action="get" className="flex items-center w-full lg:w-10/12 h-fit lg:h-full gap-2">
+                    <Input className="w-8/12 lg:w-10/12" />
+                    <Button className="w-4/12 lg:w-2/12" variant={"default"}>
                         <Search /> Search
                     </Button>
                 </form>
                 <Dialog>
-                    <DialogTrigger className="flex items-center justify-center gap-2 border py-[10px] px-4 rounded-lg
+                    <DialogTrigger className="flex flex-1 items-center justify-center gap-2 border py-[10px] px-4 rounded-lg
                         border-zinc-950 dark:border-zinc-700 dark:bg-zinc-800 box-border text-sm">
                         <PlusCircle size={20} strokeWidth={1.5} /> Create Note
                     </DialogTrigger>
@@ -108,7 +107,7 @@ export default function Notes () {
                     </DialogContent>
                 </Dialog>
             </div>
-            <div className="flex-1 grid grid-flow-row grid-cols-2 h-fit max-h-[90vh] w-full px-10 py-6 gap-4 overflow-y-scroll">
+            <div className="flex-1 grid grid-flow-row gird-cols-1 lg:grid-cols-3 h-fit max-h-[90vh] w-full px-4 lg:px-6 py-6 gap-4 overflow-y-scroll">
                 { 
                     notes.map((e,i) => (
                         <NoteItem 
