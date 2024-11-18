@@ -6,7 +6,7 @@ import Welcomescreen from "@/components/layout/gemini/gemini-welcome";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, CirclePause, Info, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface UserRequestI { type: "user", message: string };
 
@@ -24,6 +24,17 @@ export default function Chatapp () {
     const handlePost = async (e:React.FormEvent) => {
         e.preventDefault();
         
+        const prompt = message;
+
+        console.log(prompt);
+
+        setChats(prev => [...prev, {
+            type: "user",
+            message: message
+        }]);
+
+        setMessage("");
+
         try {
             setLoading(prev => true)
             const request = await fetch("/api/chat-stream",{
@@ -32,24 +43,21 @@ export default function Chatapp () {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    message,
+                    prompt,
                     session_id: "one"
                 })
             });
             const data  = await request.json();
+            
             setChats(prev => [...prev, data]);
+
+            console.log(data);
+
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(prev => false)
         }
-    }
-
-    const handleClick = () => {
-        setChats(prev => [...prev, {
-            type: "user",
-            message: message
-        }]);
     }
 
     const handleBack = () => { router.push("/home/dashboard") };
@@ -87,7 +95,7 @@ export default function Chatapp () {
                                 <div className="absolute right-4 bottom-2">
                                     <CirclePause />
                                 </div> :
-                                <button className="absolute right-4 bottom-2" title="send" type="submit" onClick={handleClick}>
+                                <button className="absolute right-4 bottom-2" title="send" type="submit">
                                     <Send />
                                 </button>
                             }
