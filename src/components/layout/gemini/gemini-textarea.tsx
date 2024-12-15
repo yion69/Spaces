@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react"
 
-export default function Textarea () {
+interface TextareaI { message: string, setMessage: (newMessage:string) => void }
+export default function Textarea ({ message, setMessage }:TextareaI) {
 
-    const [value, setValue] = useState("");
     const textareaRef = useRef<HTMLTextAreaElement>(null); 
 
     useEffect(() => {
@@ -12,13 +12,13 @@ export default function Textarea () {
             textareaRef.current.style.height = "auto"; 
             textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
         };
-    },[value])
+    },[message])
 
     const handleChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
-        setValue(e.target.value);
+        setMessage(e.target.value);
     }
     
     return(
-        <textarea className="h-auto flex w-full border border-zinc-700 px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-xl text-base bg-muted" placeholder="Send a message..." rows={2} autoFocus={undefined} ref={textareaRef} onChange={handleChange} name="prompt"></textarea>
+        <textarea className="h-4 flex w-full border border-zinc-700 px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-xl text-base bg-zinc-100 dark:bg-zinc-900" placeholder="Send a message..." value={message} rows={2} autoFocus={undefined} ref={textareaRef} onChange={handleChange} name="prompt"></textarea>
     )
 }
