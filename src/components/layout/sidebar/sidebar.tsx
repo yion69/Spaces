@@ -145,8 +145,8 @@ const data = {
       icon: BookCopy,
     },
     {
-      name: "Group Chat",
-      url: "/home/chat",
+      name: "Discussion",
+      url: "/home/discussion",
       icon: MessageCircleMore,
     },
   ],

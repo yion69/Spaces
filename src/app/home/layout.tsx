@@ -7,14 +7,18 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
     await loginIsRequiredServer();
     
     const userSession = await getServerSession(authOptions);
-    const userData = { 
-        name: userSession?.user?.name as string, 
-        email: userSession?.user?.email as string, 
-        avatar: userSession?.user?.image as string}
-        
+    const userEmail = userSession?.user?.email as string;
+
+    const userFetch = await fetch(`http://localhost:3000/api/account?email=${userEmail}`, {
+        method: "GET",
+    });
+    const response = await userFetch.json();
+    const { body } = response;
+    console.log(response);
+
     return (
         <div className="flex">
-            <SidebarDynamicWrapper user={userData} />
+            <SidebarDynamicWrapper user={{name:body.user_username, email: body.user_email, avatar: body.avatar}} />
             <div className="flex-1">{children}</div>
         </div>
         

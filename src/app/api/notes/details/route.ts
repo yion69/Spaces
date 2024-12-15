@@ -1,6 +1,6 @@
 import NoteModel from "@/app/models/note-model";
 import { NextRequest, NextResponse } from "next/server";
-import connectDb from "../dbconnect";
+import connectDb_Notes from "../dbconnect";
 
 export const POST = async (req:NextRequest) => {
     try {
@@ -8,7 +8,7 @@ export const POST = async (req:NextRequest) => {
         const body = await req.json();
         const { _id } = body;
 
-        await connectDb();
+        await connectDb_Notes();
         
 
         if(!_id) {

@@ -61,7 +61,7 @@ export default function NoteItem ({ _id, note_author, note_name, createdAt, upda
 	});
 
     return (
-        <div className="grid grid-cols-2 grid-rows-5 h-80 lg:h-96 w-full px-4 lg:px-4 py-4 bg-opacity-80 border border-zinc-400 bg-zinc-300  dark:border-zinc-700 dark:opacity-80 dark:bg-zinc-900 rounded-lg">
+        <div className="grid grid-cols-2 grid-rows-5 h-80 lg:h-96 w-full px-4 lg:px-4 py-4 bg-opacity-80 border border-zinc-400 bg-zinc-300  dark:border-zinc-700 dark:opacity-80 dark:bg-zinc-900 rounded-sm">
             <div className="col-span-2 row-span-3 border-2 border-zinc-400 dark:border-zinc-800 rounded-md overflow-hidden">
                 <div className="h-full w-full blur-0 lg:blur-sm hover:blur-none transition-all cursor-pointer duration-300">
                     <EditorContent editor={editor} className="bg-zinc-200 dark:bg-inherit" />

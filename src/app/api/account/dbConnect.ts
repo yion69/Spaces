@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const db_uri = process.env.MONGODB_URI;
-const connectDb_Notes = async () => {
+const connectDb_Users = async () => {
     if(mongoose.connections[0].readyState) {
         return true;
     }
@@ -14,4 +14,4 @@ const connectDb_Notes = async () => {
     }
 }
 
-export default connectDb_Notes;
+export default connectDb_Users;

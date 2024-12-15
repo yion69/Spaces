@@ -107,7 +107,7 @@ export default function Notes () {
                     </DialogContent>
                 </Dialog>
             </div>
-            <div className="flex-1 grid grid-flow-row gird-cols-1 lg:grid-cols-3 h-fit max-h-[90vh] w-full px-4 lg:px-6 py-6 gap-4 overflow-y-scroll">
+            <div className="flex-1 grid grid-flow-row gird-cols-1 lg:grid-cols-3 h-fit max-h-[90vh] w-full px-4 lg:px-2 pt-2 pb-6 gap-2 overflow-y-scroll">
                 { 
                     notes.map((e,i) => (
                         <NoteItem 

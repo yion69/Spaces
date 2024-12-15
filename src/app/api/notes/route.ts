@@ -1,12 +1,11 @@
 import NoteModel from "@/app/models/note-model";
 import { NextRequest, NextResponse } from "next/server";
-import connectDb from "./dbconnect";
-import { json } from "stream/consumers";
+import connectDb_Notes from "./dbconnect";
 
 export const POST = async (req:NextRequest) => {
     try {
 
-        await connectDb();
+        await connectDb_Notes();
         
         const body = await req.json();
         const { note_author, note_name, note_content } = body;
@@ -42,7 +41,7 @@ export const POST = async (req:NextRequest) => {
 
 export const GET = async () => {
     try {
-        await connectDb();
+        await connectDb_Notes();
         const note = NoteModel;
         const result = await note.find();
 
