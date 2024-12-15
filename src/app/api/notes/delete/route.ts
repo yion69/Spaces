@@ -1,8 +1,8 @@
 import NoteModel from "@/app/models/note-model";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDb from "../dbconnect";
 
-export const POST = async (req:NextResponse) => {
+export const POST = async (req:NextRequest) => {
     try {
         await connectDb();
         
