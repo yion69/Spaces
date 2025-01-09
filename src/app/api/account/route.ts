@@ -66,7 +66,4 @@ export const GET = async (req:NextRequest) => {
             action_completed: false,
         })
     }
-
-
-
 }

@@ -32,7 +32,8 @@ export const authOptions:NextAuthOptions = {
         async authorize(credentials, req) {
             const { email, password } = credentials as {
                 email:string,
-                password:string,    
+                password:string,   
+                username:string, 
             };
 
             if(!credentials || !credentials.email || !credentials.password) { return null };
@@ -94,7 +95,7 @@ export const authOptions:NextAuthOptions = {
         if(token.email) { session.user = {
             email: token.email,
             name: token.name,
-            avatar: token.picture || undefined
+            avatar: token.picture || undefined,
         }};
 
         return session;
