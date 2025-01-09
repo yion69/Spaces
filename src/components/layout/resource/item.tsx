@@ -1,9 +1,9 @@
-import { Type } from "@/app/home/resource/page"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { toast } from "@/hooks/use-toast"
 import { BookText, Copy, Globe, Newspaper, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { Type } from "@/lib/types"
 
 export interface ResourceItem<T> {
     _id: string,

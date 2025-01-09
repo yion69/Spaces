@@ -11,12 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
-
-export enum Type {
-    BOOK = "book",
-    JOURNAL = "journal",
-    WEBSITE = "website"
-}
+import { Type } from "@/lib/types";
 
 export default function Resources () {
     
