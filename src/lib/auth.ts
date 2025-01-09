@@ -38,7 +38,11 @@ export const authOptions:NextAuthOptions = {
 
             if(!credentials || !credentials.email || !credentials.password) { return null };
             
-            try {
+            try {    
+                const protocol = req.headers?.["x-forwarded-proto"] || "http"; // Detect protocol
+                const host = req.headers?.host; // Get the host (domain)
+                const baseUrl = `${protocol}://${host}`;
+
                 await connectDb_Users();
                 const user = await UserModel.findOne({user_email: email});
                 
@@ -51,7 +55,7 @@ export const authOptions:NextAuthOptions = {
 
                 if(!passwordMatch) { return null }; 
 
-                const userFetch = await fetch(`http://localhost:3000/api/account?email=${email}`, {
+                const userFetch = await fetch(`${baseUrl}/api/account?email=${email}`, {
                     method: "GET",
                 });
                 const response = await userFetch.json();
