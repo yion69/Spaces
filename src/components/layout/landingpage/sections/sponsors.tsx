@@ -53,7 +53,7 @@ export const SponsorsSection = () => {
               key={name}
               className="flex items-center text-xl md:text-2xl font-medium"
             >
-              <IconComponent size={32} color="white" className="mr-2" />
+              {/* <IconComponent size={32} color="white" className="mr-2" /> */}
               {name}
             </div>
           ))}

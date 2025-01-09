@@ -1,22 +1,5 @@
 // "use client"
 
-// import { Button } from "@/components/ui/button";
-// import { useRouter } from "next/navigation";
-
-// export default function Home() {
-
-//   const router = useRouter();
-
-//   return (
-//     <div>
-//       <nav></nav>
-//       <main>
-//         <Button onClick={()=>router.push("/login")}>Login</Button>
-//       </main>
-//       <footer></footer>
-//     </div>
-//   );
-// }
 import { Navbar } from "@/components/layout/landingpage/navbar";
 import { BenefitsSection } from "../components/layout/landingpage/sections/benefits";
 import { CommunitySection } from "../components/layout/landingpage/sections/community";
@@ -27,7 +10,6 @@ import { FooterSection } from "../components/layout/landingpage/sections/footer"
 import { HeroSection } from "../components/layout/landingpage/sections/hero";
 import { PricingSection } from "../components/layout/landingpage/sections/pricing";
 import { ServicesSection } from "../components/layout/landingpage/sections/services";
-import { SponsorsSection } from "../components/layout/landingpage/sections/sponsors";
 import { TeamSection } from "../components/layout/landingpage/sections/team";
 import { TestimonialSection } from "../components/layout/landingpage/sections/testimonial";
 
@@ -64,7 +46,6 @@ export default function Home() {
     <div className="flex flex-col items-center w-10/12 mx-auto">
       <Navbar />
       <HeroSection />
-      {/* <SponsorsSection /> */}
       <BenefitsSection />
       <FeaturesSection />
       <ServicesSection />
