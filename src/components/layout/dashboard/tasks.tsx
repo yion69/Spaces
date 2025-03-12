@@ -1,5 +1,5 @@
-import Image from "next/image"
-import { MoreHorizontal } from "lucide-react"
+
+import { ListPlus, MoreHorizontal, Plus, PlusSquare, Trash } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -12,13 +12,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
   Table,
   TableBody,
   TableCell,
@@ -26,262 +19,140 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import React, { useEffect, useState } from "react"
+import { TASK_STATUS } from "@/lib/types"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 
 export default function TasksDashboard() {
+
+  const [tasks, setTasks] = useState<Record<string, string>[]>([]);
+  const [taskInput, setTaskInput] = useState("");
+
+  const handleTaskInput = (e:React.ChangeEvent<HTMLInputElement>) => { setTaskInput(prev => e.target.value) };
+  const handleTaskAdd = () => {
+    setTasks(prev => [...prev, {
+      task_name: taskInput,
+      status: TASK_STATUS.PROGRESS,
+    }]);
+  }
+
+  const handleTaskUpdateStatus = (taskName: string, newStatus: TASK_STATUS) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.task_name === taskName ? { ...task, status: newStatus } : task
+      )
+    );
+  };
+
+  const handleTaskRemove = (taskName: string) => {
+    setTasks((prev) => prev.filter((task) => task.task_name !== taskName));
+  };
+
+  const handleFetch = () => {
+    const storedData = JSON.parse(localStorage.getItem('tasks_data') || 'null');
+    console.log(storedData);
+    setTasks(prev => storedData);
+  }
+
+  useEffect(() => {
+    handleFetch();
+  },[])
+
+  useEffect(() => {
+    localStorage.setItem('tasks_data', JSON.stringify(tasks));
+  },[tasks])
+
+
   return (
-    <Card x-chunk="dashboard-06-chunk-0">
-      <CardHeader>
-        <CardTitle>Products</CardTitle>
+    <Card x-chunk="dashboard-06-chunk-0" className="relative flex flex-col h-full w-full">
+      <CardHeader className="h-fit w-full">
+        <CardTitle onClick={handleFetch}>Tasks</CardTitle>
         <CardDescription>
-          Manage your products and view their sales performance.
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit, voluptatibus.
         </CardDescription>
+        <Dialog>
+          <DialogTrigger className="absolute right-4 bottom-4 size-14 flex gap-2 p-2 border bg-zinc-900 dark:bg-zinc-900 rounded-full items-center justify-center text-zinc-100"><Plus size={20} /></DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <div className="flex flex-col gap-2 p-4">
+                <label htmlFor="task" className="w-fit text-nowrap">Task Name</label>
+                <div className="flex items-center gap-2">
+                  <Input onChange={handleTaskInput} />
+                  <Button className="w-fit px-4 ms-auto" onClick={handleTaskAdd}><ListPlus /></Button>
+                </div>
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow">
         <Table >
           <TableHeader>
             <TableRow>
-              <TableHead className="hidden w-[100px] sm:table-cell">
-                <span className="sr-only">Image</span>
-              </TableHead>
-              <TableHead>Name</TableHead>
+              <TableHead>Task Name</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="hidden md:table-cell">Price</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Total Sales
-              </TableHead>
-              <TableHead className="hidden md:table-cell">Created at</TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="h-full max-h-[50dvh] overflow-y-scroll">
-            <TableRow>
-              <TableCell className="hidden sm:table-cell">
-                <Image
-                  alt="Product image"
-                  className="aspect-square rounded-md object-cover"
-                  height="64"
-                  src="/placeholder.svg"
-                  width="64"
-                />
-              </TableCell>
-              <TableCell className="font-medium">
-                Laser Lemonade Machine
-              </TableCell>
-              <TableCell>
-                <Badge variant="outline">Draft</Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">$499.99</TableCell>
-              <TableCell className="hidden md:table-cell">25</TableCell>
-              <TableCell className="hidden md:table-cell">
-                2023-07-12 10:42 AM
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Toggle menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            {/* <TableRow>
-              <TableCell className="hidden sm:table-cell">
-                <Image
-                  alt="Product image"
-                  className="aspect-square rounded-md object-cover"
-                  height="64"
-                  src="/placeholder.svg"
-                  width="64"
-                />
-              </TableCell>
-              <TableCell className="font-medium">
-                Hypernova Headphones
-              </TableCell>
-              <TableCell>
-                <Badge variant="outline">Active</Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">$129.99</TableCell>
-              <TableCell className="hidden md:table-cell">100</TableCell>
-              <TableCell className="hidden md:table-cell">
-                2023-10-18 03:21 PM
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Toggle menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow> */}
-            <TableRow>
-              <TableCell className="hidden sm:table-cell">
-                <Image
-                  alt="Product image"
-                  className="aspect-square rounded-md object-cover"
-                  height="64"
-                  src="/placeholder.svg"
-                  width="64"
-                />
-              </TableCell>
-              <TableCell className="font-medium">AeroGlow Desk Lamp</TableCell>
-              <TableCell>
-                <Badge variant="outline">Active</Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">$39.99</TableCell>
-              <TableCell className="hidden md:table-cell">50</TableCell>
-              <TableCell className="hidden md:table-cell">
-                2023-11-29 08:15 AM
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Toggle menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="hidden sm:table-cell">
-                <Image
-                  alt="Product image"
-                  className="aspect-square rounded-md object-cover"
-                  height="64"
-                  src="/placeholder.svg"
-                  width="64"
-                />
-              </TableCell>
-              <TableCell className="font-medium">
-                TechTonic Energy Drink
-              </TableCell>
-              <TableCell>
-                <Badge variant="secondary">Draft</Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">$2.99</TableCell>
-              <TableCell className="hidden md:table-cell">0</TableCell>
-              <TableCell className="hidden md:table-cell">
-                2023-12-25 11:59 PM
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Toggle menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="hidden sm:table-cell">
-                <Image
-                  alt="Product image"
-                  className="aspect-square rounded-md object-cover"
-                  height="64"
-                  src="/placeholder.svg"
-                  width="64"
-                />
-              </TableCell>
-              <TableCell className="font-medium">
-                Gamer Gear Pro Controller
-              </TableCell>
-              <TableCell>
-                <Badge variant="outline">Active</Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">$59.99</TableCell>
-              <TableCell className="hidden md:table-cell">75</TableCell>
-              <TableCell className="hidden md:table-cell">
-                2024-01-01 12:00 AM
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Toggle menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="hidden sm:table-cell">
-                <Image
-                  alt="Product image"
-                  className="aspect-square rounded-md object-cover"
-                  height="64"
-                  src="/placeholder.svg"
-                  width="64"
-                />
-              </TableCell>
-              <TableCell className="font-medium">Luminous VR Headset</TableCell>
-              <TableCell>
-                <Badge variant="outline">Active</Badge>
-              </TableCell>
-              <TableCell className="hidden md:table-cell">$199.99</TableCell>
-              <TableCell className="hidden md:table-cell">30</TableCell>
-              <TableCell className="hidden md:table-cell">
-                2024-02-14 02:14 PM
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button aria-haspopup="true" size="icon" variant="ghost">
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Toggle menu</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
+            {
+              tasks.map((e,i) => (
+                <Task 
+                  key={i} 
+                  task_name={e.task_name} 
+                  status={e.status as TASK_STATUS} 
+                  remove={handleTaskRemove}
+                  update={handleTaskUpdateStatus} />
+              ))
+            }
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="h-fit w-full">
         <div className="text-xs text-muted-foreground">
-          Showing <strong>1-10</strong> of <strong>32</strong> products
+          Showing <strong>{tasks.length}</strong> tasks
         </div>
       </CardFooter>
     </Card>
+  )
+}
+
+function Task ({ task_name, status, remove }: 
+               { task_name:string, status: TASK_STATUS, remove: (taskName: string) => void, 
+                 update: (taskName: string, newStatus: TASK_STATUS) => void }) {
+
+  const [taskStatus, setTaskStatus] = useState(status);
+
+  return (
+    <TableRow className="w-full">
+      <TableCell className="font-medium w-8/12">
+        {task_name } 
+      </TableCell>
+      <TableCell className="w-2/12">
+        { taskStatus == "completed" ? 
+          <Badge variant="outline" className="bg-green-600">{taskStatus}</Badge> :
+          taskStatus == "progress" ?
+          <Badge variant="outline" className="bg-blue-600">{taskStatus}</Badge> :
+          <Badge variant="outline" className="bg-yellow-400 text-zinc-950">{taskStatus}</Badge> 
+        }
+      </TableCell>
+      <TableCell className="w-1/12">
+        <Select onValueChange={(value) => setTaskStatus(prev => value as TASK_STATUS)}>
+          <SelectTrigger className="">
+            
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="completed">completed</SelectItem>
+            <SelectItem value="progress">progress</SelectItem>
+            <SelectItem value="hold">hold</SelectItem>
+          </SelectContent>
+        </Select>
+      </TableCell>
+      <TableCell className="w-1/12">
+        <Button variant={"destructive"} className="" onClick={()=>remove(task_name)} ><Trash size={20} /> </Button>
+      </TableCell>
+    </TableRow>
   )
 }

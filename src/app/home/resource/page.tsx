@@ -39,6 +39,12 @@ export default function Resources () {
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if(tag.trim() === "" || Object.keys(formContent).length === 0){
+            toast({
+                title: "Input fields cannot left empty",
+            })
+        }
+
         const req = await fetch("/api/resource",{
             method: "POST",
             headers: {
@@ -60,6 +66,7 @@ export default function Resources () {
                 title: "Resource Added Successfully",
                 description: "Your resource has been added to your collection successfully!",
             })
+            handleFetch();
         }
     }
 
@@ -201,9 +208,6 @@ export default function Resources () {
                     </DialogContent>
                 </Dialog>
             </div>
-            {/* <div className="m-auto w-2/12 h-fit">
-                <FormBuilder />
-            </div> */}
         </div>
     )
 }

@@ -11,11 +11,12 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 export default function CreateBlog () {
 
     const router = useRouter();
-    const { data: session, status} = useSession();
+    const { data: session, status} = useSession()   ;
     
     const [document, setDocument] = useState<JSONContent>();
     const [title, setTitle] = useState("");
@@ -56,6 +57,12 @@ export default function CreateBlog () {
 
     const handleFormSubmit = async (e:FormEvent) => {
         e.preventDefault();
+ 
+        if(tags.trim() === "" || title.trim() === "") {
+            toast({
+                title: "Post title or tags cannot left empty",
+            })
+        }
 
         try {
             const request = await fetch("/api/discussions",{
@@ -139,7 +146,7 @@ export default function CreateBlog () {
                     <Tiptap setDocument={setDocument} />
                 </div>           
                 <div className="grid grid-cols-2 self-end w-2/6 gap-2">
-                    <Button className="text-red-600" variant={"ghost"}>Cancel</Button>         
+                    <Button className="text-red-600" variant={"ghost"} onClick={()=>router.push('/home/discussion')}>Cancel</Button>         
                     <Button variant={"secondary"}>Create</Button>
                 </div>
             </form>

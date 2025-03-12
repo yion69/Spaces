@@ -2,18 +2,27 @@
 
 import Comment from "@/components/layout/discussion/comment";
 import { Post } from "@/components/layout/discussion/item";
-import RichTextEditor from "@/components/layout/discussion/text-editor";
+import moment from "moment";
 import { extensionsCustom } from "@/components/layout/notes/tiptap";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EllipsisVertical, Heart, MessageCircleMore, Send, Share2, Trash2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { use, useEffect, useState } from "react";
+
+
+interface CommentType {
+    comment_author: string,
+    comment_content: string,
+    comment_time: string,
+}
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     const { id } = use(params);
+    const { data: session, status} = useSession();
     const [liked, setLiked] = useState(false);
     const [comment, setComment] = useState("");
     const [post, setPost] = useState<Post>();
@@ -29,8 +38,41 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     }
 
-    const handleLike = () => { setLiked(prev => !prev) }
+    const handleUpdate = async () => {
+        const req = await fetch(`/api/discussions/posts?id=${id}`,{
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                comment_author: session?.user.name || "user_undefined",
+                comment_content: comment,
+                comment_time: moment().format('YYYY-MM-DD HH:mm:ss')
+            })
+        })
+        const res = await req.json();
+        console.log(res);
+    }
+
+    const handleLikeUpdate = async () => {
+        const req = await fetch(`/api/discussions/posts?id=${id}`,{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        const res = await req.json();
+        console.log(res);
+    }
+
+    const handleLike = () => { setLiked(prev => !prev); handleLikeUpdate() }
     const handleInput = (e:React.ChangeEvent<HTMLInputElement>) => { setComment(prev => e.target.value)}
+    const handleCommentPush = () => { 
+        handleUpdate();
+        handleFetch();
+        setComment(prev => "");
+    };
 
     useEffect(() => {
         handleFetch();
@@ -51,11 +93,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const data = [
         {
             comment_author: "yion69",
-            comment_content: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque facilis optio est ipsam itaque ea?"
+            comment_content: "Use chagpt or claude lmao"
         },
         {
             comment_author: "thutanai",
-            comment_content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore, eos iusto dignissimos recusandae impedit pariatur asperiores autem? Nulla, ullam velit quaerat impedit totam cum autem, non aut vitae maxime assumenda."
+            comment_content: "I can help you with that just DM me my discord is @not_thutanai"
         }
     ]
     return(
@@ -79,13 +121,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     </div>
                     <div className="flex flex-col w-1/2 h-full">
                         <div className="w-full h-4/5 max-h-[31rem] overflow-y-scroll">
-                            <Comment comment_author={data[0].comment_author} comment_content={data[0].comment_content} />
-                            <Comment comment_author={data[0].comment_author} comment_content={data[0].comment_content} />
-                            <Comment comment_author={data[0].comment_author} comment_content={data[0].comment_content} />
-                            <Comment comment_author={data[0].comment_author} comment_content={data[0].comment_content} />
-                            <Comment comment_author={data[1].comment_author} comment_content={data[1].comment_content} />
-                            <Comment comment_author={data[1].comment_author} comment_content={data[1].comment_content} />
-                            <Comment comment_author={data[1].comment_author} comment_content={data[1].comment_content} />
+                            { 
+                                post?.blog_comments.map((e: CommentType, i: number) => (
+                                    <Comment key={i} comment_author={e.comment_author} comment_content={e.comment_content} comment_time={e.comment_time} />
+                                ))
+                                
+                            }
                         </div>
                         <div className="flex flex-col w-full h-1/5">
                             <div className="flex w-full h-14 px-2 gap-2 border-t border-zinc-400 dark:border-zinc-800">
@@ -116,8 +157,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                 </div>
                             </div>
                             <div className="flex items-center justify-center w-full h-20 px-2 py-4 border-t bg-zinc-200 dark:bg-zinc-950 border-zinc-400 dark:border-zinc-800">
-                                <Input title="input" type="text" className="w-full h-full outline-0 rounded-xl border-zinc-400 dark:border-zinc-800" onChange={handleInput}/>
-                                <button className="flex items-center justify-center h-full w-14" type="button" title="btn">
+                                <Input title="input" type="text" className="w-full h-full outline-0 rounded-xl border-zinc-400 dark:border-zinc-800" onChange={handleInput} value={comment}/>
+                                <button className="flex items-center justify-center h-full w-14" type="button" title="btn" onClick={handleCommentPush}>
                                     <Send />
                                 </button>
                             </div>

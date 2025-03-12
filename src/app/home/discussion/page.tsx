@@ -8,16 +8,6 @@ import { useEffect, useState } from "react";
 export default function Chat () {
  
     const [blogs, setBlogs] = useState<Post[] | null>(null);
-    const tempData = {
-        user_photo: null,
-        username: "User000001",
-        timestamp: "3 days ago",
-        post_title: "Where can I read more about C+++?",
-        post_content: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero, deleniti vitae! Eius sequi numquam quidem voluptatum in ipsa quos ratione recusandae vel quia, impedit consequuntur necessitatibus, debitis, odit quas. Totam.",
-        post_reactions: 22,
-        post_comment: 4
-    }
-
     const fetchBlogs = async () => {
         const request = await fetch("/api/discussions",{
             method: "GET",

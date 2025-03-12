@@ -36,14 +36,16 @@ export const POST = async (req:NextRequest) => {
             action_complete: false,
             error: error
         },{ status: 504 })
-    }
+    }   
 }
 
-export const GET = async () => {
+export const GET = async (req:NextRequest) => {
+    const author = req.nextUrl.searchParams.get("author");
+    console.log(author);
     try {
         await connectDb_Notes();
         const note = NoteModel;
-        const result = await note.find();
+        const result = await note.find({ note_author: author });
 
         return NextResponse.json({
             action: "fetch all note",

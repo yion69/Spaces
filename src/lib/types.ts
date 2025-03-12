@@ -3,3 +3,9 @@ export enum Type {
     JOURNAL = "journal",
     WEBSITE = "website"
 }
+
+export enum TASK_STATUS {
+    COMPLETED = "completed",
+    PROGRESS = "progress",
+    HOLD = "hold"
+}

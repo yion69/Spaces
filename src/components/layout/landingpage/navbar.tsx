@@ -74,10 +74,9 @@ export const Navbar = () => {
   return (
     <header className="shadow-inner bg-opacity-15 w-[90%] md:w-[70%] lg:w-[75%] lg:max-w-screen-xl top-5 mx-auto sticky border border-secondary z-40 rounded-2xl flex justify-between items-center p-2 bg-card">
       <Link href="/login" className="w-fit h-8 px-5 border rounded-lg bg-zinc-950 dark:bg-zinc-200 text-sm flex items-center text-zinc-100 dark:text-zinc-950">
-        {/* <ChevronsDown className="bg-gradient-to-tr border-secondary from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white" /> */}
+
         Login
       </Link>
-      {/* <!-- Mobile --> */}
       <div className="flex items-center lg:hidden">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
@@ -178,7 +177,7 @@ export const Navbar = () => {
         <Button asChild size="sm" variant="ghost" aria-label="View on GitHub">
           <Link
             aria-label="View on GitHub"
-            href="https://github.com/nobruf/shadcn-landing-page.git"
+            href="https://github.com/yion69/Spaces"
             target="_blank"
           >
             <Github className="size-5" />

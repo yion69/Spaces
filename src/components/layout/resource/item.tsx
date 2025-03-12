@@ -33,6 +33,7 @@ export default function Item ({ _id, resource_type, resource_author, resource_co
                 title: "Resource Deleted Successfully",
                 description: "Your resource has been deleted from your collection successfully!",
             })
+            window.location.reload();
         }
         console.log(res.body);
     }

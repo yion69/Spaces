@@ -41,11 +41,22 @@ export default function Item ({ post_data }:PostProps) {
         setBg(reaction ? prev => "white" : prev => "none");
     }, [reaction])
  
+    const handleLikeUpdate = async () => {
+        const req = await fetch(`/api/discussions/posts?id=${post_data._id}`,{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const res = await req.json();
+        console.log(res);
+    }
 
     const handleReaction = () => {
         setReaction(prev => !prev);
         if(reaction) { setReactionCount(prev => prev - 1); return};
         setReactionCount(prev => prev + 1);
+        handleLikeUpdate();
     }
 
     const handleRoute = () => {

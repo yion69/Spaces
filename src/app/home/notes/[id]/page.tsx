@@ -32,6 +32,7 @@ import { ColorBlue } from "@/components/toolbars/color-blue";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, FilePenLine } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 export default function Note ({ params }: { params: Promise<{ id: string }> }) {
 
@@ -62,6 +63,24 @@ export default function Note ({ params }: { params: Promise<{ id: string }> }) {
         }
     }
 
+    const updateNoteContent = async () => {
+        const response = await fetch(`/api/notes/details?id=${id}`, {
+            method: 'PATCH',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ note_content: editor.getJSON() }),
+        });
+
+        const data = await response.json();
+        if(data.success) {
+            toast({
+                title: "Note Updated Successfully",
+            })
+            handleBack();
+        }
+    };
+
     const handleBack = () => { router.push("/home/notes") };
  
     const editor = useEditor({
@@ -82,7 +101,7 @@ export default function Note ({ params }: { params: Promise<{ id: string }> }) {
                     <Button variant={"ghost"} className="h-full rounded-none" size={"lg"} onClick={handleBack}>
                         <ChevronLeft/>Back
                     </Button>
-                    <Button variant={"ghost"} size={"lg"} className="h-full rounded-none"><FilePenLine/>Update</Button>
+                    <Button variant={"ghost"} size={"lg"} className="h-full rounded-none" onClick={updateNoteContent}><FilePenLine/>Update</Button>
                 </div>
                 <div className="border w-full h-5/6 flex-1 relative rounded-md rounded-t-none overflow-hidden overflow-y-scroll no-scrollbar">
                     <div className="flex w-full items-center py-2 px-2 justify-between border-b sticky top-0 left-0 bg-zinc-50 dark:bg-background z-20">

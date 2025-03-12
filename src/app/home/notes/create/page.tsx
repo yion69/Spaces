@@ -16,7 +16,7 @@ export default function Create () {
     
     const searchParams = useSearchParams();
     const paramsName = searchParams.get("notename");
-    const noteAuthor = searchParams.get("noteAuthor");
+    const noteAuthor = searchParams.get("noteauthor");
     const [noteName, setNoteName] = useState("");
     const [newName, setNewName] = useState("");
     const [document, setDocument] = useState<JSONContent>();
@@ -49,7 +49,7 @@ export default function Create () {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    note_author: "John Doe",
+                    note_author: noteAuthor,
                     note_name: noteName,
                     note_content: document
                 }),
