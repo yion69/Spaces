@@ -35,12 +35,13 @@ export default function NoteItem ({ _id, note_author, note_name, createdAt, upda
             const res = await req.json();
 
             console.log(res);
-            if(res.action_completed) {
+            if(res.action_complete) {
                 toast({ 
                     variant: "default",
                     title: "Note Deleted Successfully",
                     description: "Your note has been successfully deleted."
                 })
+                window.location.reload();
             }
 
         } catch (error) {

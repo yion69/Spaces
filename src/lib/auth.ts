@@ -1,18 +1,16 @@
-import NextAuth, { getServerSession, NextAuthOptions } from "next-auth"
+import NextAuth, { DefaultUser, getServerSession, NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
 import "dotenv/config"
 import { redirect } from "next/navigation"
 import UserModel from "@/app/models/user-model"
-import { Document } from "mongoose"
 import connectDb_Users from "@/app/api/account/dbConnect"
 import bcrypt from "bcrypt"
 
-interface User extends Document {
+interface User extends DefaultUser {
   user_username: string;
   user_email: string;
-  user_password: string;
   user_avatar?: string;
 };
 
@@ -34,12 +32,17 @@ export const authOptions:NextAuthOptions = {
         async authorize(credentials, req) {
             const { email, password } = credentials as {
                 email:string,
-                password:string,    
+                password:string,   
+                username:string, 
             };
 
             if(!credentials || !credentials.email || !credentials.password) { return null };
             
-            try {
+            try {    
+                const protocol = req.headers?.["x-forwarded-proto"] || "http"; // Detect protocol
+                const host = req.headers?.host; // Get the host (domain)
+                const baseUrl = `${protocol}://${host}`;
+
                 await connectDb_Users();
                 const user = await UserModel.findOne({user_email: email});
                 
@@ -51,8 +54,19 @@ export const authOptions:NextAuthOptions = {
                 );
 
                 if(!passwordMatch) { return null }; 
-                
-                return {email: user.user_email, name: user.user_username, id: user._id};
+
+                const userFetch = await fetch(`${baseUrl}/api/account?email=${email}`, {
+                    method: "GET",
+                });
+                const response = await userFetch.json();
+                const { body } = response;
+
+                return {
+                    email: body.user_email, 
+                    name: body.user_username, 
+                    id: body._id, 
+                    avatar: body.user_avatar
+                };
 
             } catch (error) {
                 console.log(error);
@@ -74,14 +88,19 @@ export const authOptions:NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.email = user.email;
-        token.name = user.name;
+        token.picture = user.avatar,
+        token.email = user.email || undefined;
+        token.name = user.name || undefined;
       }
       return token;
     },
 
     async session({ session, token }) {
-        if(token.email) { session.user = { email: token.email }};
+        if(token.email) { session.user = {
+            email: token.email,
+            name: token.name,
+            avatar: token.picture || undefined,
+        }};
 
         return session;
     }

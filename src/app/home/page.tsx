@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Item from "@/components/layout/resource/item";
 
 export default function Home () {
     

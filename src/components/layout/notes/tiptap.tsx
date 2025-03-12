@@ -84,7 +84,7 @@ const Tiptap = ({ setDocument }:TipTapI) => {
 		},
 		onUpdate({ editor }) {
 			setDocument(editor.getJSON());
-			console.log(editor.getText());
+			// console.log(editor.getText());
 		}
 
 	});
@@ -94,7 +94,7 @@ const Tiptap = ({ setDocument }:TipTapI) => {
 	}
 	return (
 		<div className="border w-full h-full relative rounded-md rounded-t-none overflow-hidden overflow-y-scroll no-scrollbar">
-			<div className="flex w-full items-center py-2 px-2 justify-between border-b  sticky top-0 left-0 bg-zinc-50 dark:bg-background z-20">
+			<div className="flex w-full items-center py-2 px-2 justify-between border-b sticky top-0 left-0 bg-zinc-50 dark:bg-background z-20">
 				<ToolbarProvider editor={editor}>
 					<TooltipProvider>
 						<div className="flex items-center gap-2">

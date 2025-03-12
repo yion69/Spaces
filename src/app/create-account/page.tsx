@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label"
 import { Blend, Container, Eye, EyeClosed } from "lucide-react"
 import { FormEventHandler, useEffect, useState } from "react"
 import { GithubSignInButton, GoogleSignInButton } from "@/components/layout/loginform/login-buttons"
+import { toast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
 
 export interface UserDataI {
     username: string,
@@ -25,7 +27,7 @@ export default function AccountCreate() {
         password: "",
         avatar: null,
     });
-    
+    const router = useRouter();
     const [togglePassword, setTogglePassword] = useState(true);
     const [passwordType, setPasswordType] = useState("password");
 
@@ -53,9 +55,11 @@ export default function AccountCreate() {
             const response = await request.json();
 
             if(!response.action_complete) { console.log(response.message); return }
-            
-            console.log(response.message);
-
+        
+            toast({
+                title: "Account created successfully!",
+            })
+            router.push('/login');
         } catch (error) {
             console.log(error);
         }
@@ -68,18 +72,12 @@ export default function AccountCreate() {
     return (
         <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 h-screen bg-zinc-950">
             <div className="relative bg-muted lg:block">
-                <h3 className="w-fit flex items-center gap-2 relative top-10 left-10 text-3xl"><Container />Hello there</h3>
-                <p className="flex flex-col gap-2 absolute bottom-14 left-10 w-11/12 text-lg">
+                <h3 className="z-10 w-fit flex items-center gap-2 relative top-10 left-10 text-3xl"><Container />Spaces <span className="mt-auto text-sm">Website for Students</span></h3>
+                <p className="z-10 flex flex-col gap-2 absolute bottom-14 left-10 w-11/12 text-lg">
                     " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam minus est a illo possimus esse, similique pariatur fugit enim adipisci non cum facilis. Iste, maxime? "
                     <span className="text-sm font-semibold">Lorem Ipsum</span>
                 </p>
-                {/* <Image
-                    src="/placeholder.svg"
-                    alt=""
-                    width="1920"
-                    height="720"
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                /> */}
+                <img src="/login.png" alt="" className="z-0 absolute top-0 h-full object-cover" />
             </div>
             <div className="flex items-center justify-center py-12">
                 <div className="mx-auto grid w-[350px] gap-6">

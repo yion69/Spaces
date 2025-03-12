@@ -9,7 +9,10 @@ const nextConfig: NextConfig = {
     eslint: {
       ignoreDuringBuilds: true,
     },
-    reactStrictMode: false
+    reactStrictMode: false,
+    images: {
+      domains: ['i.pravatar.cc', 'images.unsplash.com','avatars.githubusercontent.com', 'placecats.com'], // Add allowed image domains here
+    },
 };
 
 export default nextConfig;

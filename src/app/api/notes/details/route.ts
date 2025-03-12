@@ -40,3 +40,36 @@ export const POST = async (req:NextRequest) => {
         },{ status: 504 })
     }
 }
+
+export const PATCH = async (req: NextRequest) => {
+
+    const id = req.nextUrl.searchParams.get("id");
+    const body = await req.json();
+    const { note_content } = body;
+    try {
+        await connectDb_Notes();
+
+        const updatedBlog = await NoteModel.findByIdAndUpdate(
+            id,
+            { $set: { note_content }},
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedBlog) {
+            return NextResponse.json(
+                { success: false, message: "Note not found" },
+                { status: 404 }
+            );
+        }
+
+        return NextResponse.json(
+            { success: true, message: "Note Updated successfully", body: updatedBlog },
+            { status: 200 }
+        );
+    } catch (error) {
+        return NextResponse.json(
+            { success: false, message: "Failed to update note", error: error},
+            { status: 500 }
+        );
+    }
+};

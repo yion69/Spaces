@@ -10,6 +10,7 @@ import { GithubSignInButton, GoogleSignInButton } from "@/components/layout/logi
 import { signIn } from "next-auth/react";
 import { FormEventHandler, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 export default function Login() {
 
@@ -34,9 +35,12 @@ export default function Login() {
                 password: userAuth.password
             })
 
-            if(response?.error) { console.log("Err: During Sign In", response.error); return };
-            
-            if(response === null) { console.log('Login Failed incorrect credentials'); return };
+            if(response?.error) { 
+                toast({
+                    title: "Username or Password Incorrect",
+                });
+                return;
+            };
 
             console.log(response);
 
@@ -107,18 +111,12 @@ export default function Login() {
                 </div>
             </div>
             <div className="relative bg-muted lg:block">
-                <h3 className="w-fit flex items-center gap-2 relative top-10 left-10 text-3xl"><Container />Hello there</h3>
-                <p className="flex flex-col gap-2 absolute bottom-14 left-10 w-11/12 text-lg">
+                <h3 className="z-10 w-fit flex items-center gap-2 relative top-10 left-10 text-3xl"><Container />Spaces <span className="mt-auto text-sm">Website for Students</span></h3>
+                <p className="z-10 flex flex-col gap-2 absolute bottom-14 left-10 w-11/12 text-lg">
                     " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam minus est a illo possimus esse, similique pariatur fugit enim adipisci non cum facilis. Iste, maxime? "
                     <span className="text-sm font-semibold">Lorem Ipsum</span>
                 </p>
-                {/* <Image
-                    src="/placeholder.svg"
-                    alt=""
-                    width="1920"
-                    height="720"
-                    className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                /> */}
+                <img src="/login.png" alt="" className="z-0 absolute top-0 h-full object-cover" />
             </div>
         </div>
     )

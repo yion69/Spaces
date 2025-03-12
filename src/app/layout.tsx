@@ -5,6 +5,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/hooks/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
+import { Navbar } from "@/components/layout/landingpage/navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,17 +30,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-            {children}
-            <Toaster />
-          </ThemeProvider>
-        </QueryClientProvider>
+        <SessionProvider>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </QueryClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );
